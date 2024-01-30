@@ -1,0 +1,18 @@
+*{
+  margin: 0;
+  background-color: #2D2D2D;
+  font-family: Poppins;
+  color: aliceblue;
+}
+
+.taskList{
+  img{
+    justify-content: space-evenly;
+    margin: 5px;
+    cursor: pointer;
+  }
+  img:hover{
+    transform: scale(1.1);
+    transition-duration: 0.3s;
+  }
+}
