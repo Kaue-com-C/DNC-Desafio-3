@@ -1,49 +1,75 @@
-.body{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0px 200px 0px 200px;
 
-    h1{
-        margin: 50px;
-        text-align: center;
-    }
-    #border{
-        border: 3px solid;
-        border-radius: 15px;
-        margin: 40px 300px 35px 300px;
+  h1 {
+    margin: 50px auto;
+    text-align: center;
+  }
+
+  .task-table {
+    button {
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 5px;
+      padding: 8px 16px;
+      transition: transform 0.3s ease;
+      background-color: #0C70F2;
+      color: #fff;
+      border: none;
     }
 
+    button:hover {
+      transform: scale(1.07);
+    }
 
-    tr{
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        font-family: 'Raleway', sans-serif;
-        font-size: 20px;
-        font-weight: lighter;
+    input {
+      border-radius: 10px;
+      background-color: #fff;
+      padding: 8px 12px;
+      color: black;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
     }
- }
 
- .task-table{
-    button{
-        border-radius: 10px;
-        cursor: pointer;
-        margin: 5px;
-    }
-    button:hover{
-        transform: scale(1.1);
-    }
-    input{
-        border-radius: 10px;
-        background-color: #fff;
-        padding-left: 13px;
-        color: black;
-    }
     input:focus {
-        outline: none;
+      outline: none;
+      border-color: #007bff;
     }
 
     input::placeholder {
-        font-style: italic;
+      font-style: italic;
+      color: #999;
     }
- }
+
+    tr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Raleway', sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    th {
+      width: 25%; 
+      border: 1px solid;
+      border-radius: 10px;
+    }
+
+    td {
+      flex: 1; 
+      display: flex;
+      justify-content: center;
+    }
+  }
+ 
+  
+}
+select {
+  border-radius: 8px;
+  padding: 5px 20px;
+  font-size: 15px;
+}

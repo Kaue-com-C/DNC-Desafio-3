@@ -3,7 +3,6 @@ import TaskList from '../TaskList/TaskList';
 import Header from '../Header/Header';
 import './index.scss';
 
-
 const App = () => {
   const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
   const [tasks, setTasks] = useState(storedTasks);
@@ -22,10 +21,12 @@ const App = () => {
         id: tasks.length + 1,
         title: newTask,
         status: false,
+        priority: 'low',
       };
 
       setTasks((prevTasks) => [...prevTasks, newTaskObject]);
       setNewTask('');
+      localStorage.setItem('tasks', JSON.stringify([...tasks, newTaskObject]));
     }
   };
 
@@ -66,72 +67,85 @@ const App = () => {
     }
   };
 
+  const handlePriorityChange = (task, priority) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((t) => (t.id === task.id ? { ...t, priority } : t))
+    );
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  };
+
   return (
     <div>
       <Header />
       <div className='body'>
-      <h1>Otimize seu tempo e se organize com o nosso Planejador Diário.</h1>
+        <h1>Otimize seu tempo e se organize com o nosso Planejador Diário.</h1>
 
-      <table className="task-table">
-        <thead>
-          <tr>
-            <th>Tarefas</th>
-            <th>Status</th>
-            <th>Opções</th>
-          </tr>
-          <div id='border'></div>
-        </thead>
-        <tbody>
-          <TaskList tasks={tasks} onEdit={handleEditTask} onToggleStatus={handleToggleStatus} onDelete={handleDeleteTask} />
+        <table className="task-table">
+          <thead>
+            <tr>
+              <th>Tarefas</th>
+              <th>Status</th>
+              <th>Prioridade</th>
+              <th>Opções</th>
+            </tr>
+          </thead>
+          <tbody>
+            <TaskList
+              tasks={tasks}
+              onEdit={handleEditTask}
+              onToggleStatus={handleToggleStatus}
+              onDelete={handleDeleteTask}
+              onPriorityChange={handlePriorityChange}
+            />
 
-          {editTask && (
-            <tr key={editTask.id}>
-              <td colSpan="2">
+            {editTask && (
+              <tr key={editTask.id}>
+                <td colSpan="3">
+                  <input
+                    type="text"
+                    value={editTask.title}
+                    onChange={(e) => setEditTask({ ...editTask, title: e.target.value })}
+                  />
+                </td>
+                <td>
+                  {!editTask.status && (
+                    <>
+                      <button onClick={handleUpdateTask}>Salvar</button>
+                      <button onClick={() => setEditTask(null)}>Cancelar</button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            )}
+
+            {isConfirmationModalOpen && confirmDelete && (
+              <tr>
+                <td colSpan="4">
+                  Tem certeza que deseja excluir a tarefa "{confirmDelete.title}"?
+                  <button onClick={handleConfirmDelete}>Sim</button>
+                  <button onClick={() => setConfirmationModalOpen(false)}>Não</button>
+                </td>
+              </tr>
+            )}
+
+            <tr>
+              <td>
                 <input
                   type="text"
-                  value={editTask.title}
-                  onChange={(e) => setEditTask({ ...editTask, title: e.target.value })}
+                  placeholder="Nova Tarefa"
+                  value={newTask}
+                  onChange={(e) => setNewTask(e.target.value)}
                 />
               </td>
+              <td></td>
+              <td></td>
               <td>
-                {!editTask.status && (
-                  <>
-                    <button onClick={handleUpdateTask}>Salvar</button>
-                    <button onClick={() => setEditTask(null)}>Cancelar</button>
-                  </>
-                )}
+                <button onClick={handleAddTask}>+</button>
               </td>
             </tr>
-          )}
-
-          {isConfirmationModalOpen && confirmDelete && (
-            <tr>
-              <td colSpan="3">
-                Tem certeza que deseja excluir a tarefa "{confirmDelete.title}"?
-                <button onClick={handleConfirmDelete}>Sim</button>
-                <button onClick={() => setConfirmationModalOpen(false)}>Não</button>
-              </td>
-            </tr>
-          )}
-
-          <tr>
-            <td>
-              <input
-                type="text"
-                placeholder="Nova Tarefa"
-                value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-                style={{fontWeight: 'light'}}
-              />
-            </td>
-            <td></td>
-            <td>
-              <button onClick={handleAddTask}>+</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

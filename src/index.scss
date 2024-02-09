@@ -1,8 +1,8 @@
 *{
   margin: 0;
-  background-color: #2D2D2D;
+  background-color: white;
   font-family: Poppins;
-  color: aliceblue;
+  color: #2D2D2D;
 }
 
 .taskList{
@@ -10,9 +10,11 @@
     justify-content: space-evenly;
     margin: 5px;
     cursor: pointer;
+    color: #2D2D2D;
   }
   img:hover{
     transform: scale(1.1);
     transition-duration: 0.3s;
   }
+  
 }
